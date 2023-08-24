@@ -22,12 +22,3 @@ void insertionSort(int arr[], int n)
 	}
 }
 
-// A utility function to print an array
-// of size n
-void printArray(int arr[], int n)
-{
-	int i;
-	for (i = 0; i < n; i++)
-		cout << arr[i] << " ";
-	cout << endl;
-}

@@ -6,10 +6,7 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
-    if (argc !=7 || string(argv[1]) != "-i") {
-        cerr << "Uso: " << argv[0] << " -i <Archivo>" << std::endl;
-        return 1;
-    }
+
 
     const char* nombreArchivo = argv[2];
     ifstream archivo(nombreArchivo);
@@ -20,11 +17,22 @@ int main(int argc, char* argv[]) {
     }
 
     string linea;
-
-    while (getline(archivo, linea)) {
-        cout<<linea<<endl;
+    getline(archivo, linea);
+    istringstream iss(linea);
+    string token;
+    int contadorComas = 0;
+    for (char c : linea) {
+        if (c == ',') {
+            contadorComas++;
+        }
     }
-    
+    int arrSize = 0;
+    int arr[contadorComas +1];
+    cout<<contadorComas<<endl;
+    while (getline(iss, token, ',')) {
+        arr[arrSize] = stoi(token);
+        arrSize++;
+        }
     
     archivo.close();
 
