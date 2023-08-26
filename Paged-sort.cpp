@@ -1,14 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
 #include <cstring> 
 #include <vector>
 #include <queue>
-#include <algorithm>
-#include <functional>
-#include <stdbool.h>
-#include <stdio.h>
 using namespace std;
 
 const int PAGE_SIZE = 1024; // Tamaño de página en bytes
@@ -16,7 +11,7 @@ const int MAX_PAGES = 6;    // Número máximo de páginas
 
 class Page {
 public:
-    std::vector<int> data;
+    vector<int> data;
 
     Page() {
         data.reserve(PAGE_SIZE / sizeof(int));
@@ -25,9 +20,9 @@ public:
 
 class PagedArray {
 public:
-    void storeArray(const std::vector<int>& arr) {
+    void storeArray(const vector<int>& arr) {
         if (arr.size() * sizeof(int) > PAGE_SIZE) {
-            std::cout << "El archivo es demasiado grande para una página. No se puede manejar." << std::endl;
+            cout << "El archivo es demasiado grande para una página. No se puede manejar." << endl;
             return;
         }
 
@@ -35,7 +30,7 @@ public:
             int pageToReplaceId = fifoQueue.front();
             fifoQueue.pop();
 
-            std::cout << "Reemplazando página " << pageToReplaceId << " con nuevo archivo" << std::endl;
+            cout << "Reemplazando página " << pageToReplaceId << " con nuevo archivo" << endl;
 
             pages[pageToReplaceId].data = arr;
             fifoQueue.push(pageToReplaceId);
@@ -52,8 +47,8 @@ public:
     }
 
 private:
-    std::vector<Page> pages;
-    std::queue<int> fifoQueue;
+    vector<Page> pages;
+    queue<int> fifoQueue;
 };
 
 void swap(int* xp, int* yp)
@@ -66,7 +61,7 @@ void swap(int* xp, int* yp)
 // An optimized version of Bubble Sort
 void bubbleSort(Page& page, int n)
 {
-	std::vector<int>& arr = page.data;
+	vector<int>& arr = page.data;
 	int i, j;
 	bool swapped;
 	for (i = 0; i < n - 1; i++) {
@@ -89,7 +84,7 @@ void bubbleSort(Page& page, int n)
 // insertion sort
 void insertionSort(Page& page, int n)
 {
-	std::vector<int>& arr = page.data;
+	vector<int>& arr = page.data;
 	int i, key, j;
 	for (i = 1; i < n; i++) {
 		key = arr[i];
@@ -110,7 +105,7 @@ void insertionSort(Page& page, int n)
 // Function for Selection sort
 void selectionSort(Page& page, int n)
 {
-	std::vector<int>& arr = page.data;
+	vector<int>& arr = page.data;
 	int i, j, min_idx;
 
 	// One by one move boundary of
@@ -191,25 +186,25 @@ int main(int argc, char* argv[]) {
     PagedArray memory;
 
     // Leer archivo de entrada
-    std::ifstream inputFile(argv[2]);
+    ifstream inputFile(argv[2]);
     if (!inputFile) {
-        std::cerr << "No se pudo abrir el archivo de entrada." << std::endl;
+        cerr << "No se pudo abrir el archivo de entrada." << endl;
         return 1;
     }
 
-    std::vector<int> inputArray;
-    std::string line;
-    while (std::getline(inputFile, line)) {
-        std::istringstream iss(line);
-        std::string valueStr;
-        while (std::getline(iss, valueStr, ',')) {
-            int value = std::stoi(valueStr);
+    vector<int> inputArray;
+    string line;
+    while (getline(inputFile, line)) {
+        istringstream iss(line);
+        string valueStr;
+        while (getline(iss, valueStr, ',')) {
+            int value = stoi(valueStr);
             inputArray.push_back(value);
         }
     }
 
     // Dividir y almacenar el arreglo en páginas
-    std::vector<int> currentPage;
+    vector<int> currentPage;
     for (size_t i = 0; i < inputArray.size(); ++i) {
         currentPage.push_back(inputArray[i]);
 
@@ -242,7 +237,7 @@ int main(int argc, char* argv[]) {
 
 
     // Guardar datos ordenados en un archivo
-    std::ofstream outputFile(argv[6]);
+    ofstream outputFile(argv[6]);
     if (outputFile.is_open()) {
         for (const Page& page : memory.getPages()) {
             for (size_t i = 0; i < page.data.size(); ++i) {
@@ -255,9 +250,9 @@ int main(int argc, char* argv[]) {
         }
 
         outputFile.close();
-        std::cout << "Datos ordenados guardados en datos_ordenados.txt" << std::endl;
+        cout << "Datos ordenados guardados en datos_ordenados.txt" << endl;
     } else {
-        std::cerr << "No se pudo abrir el archivo datos_ordenados.txt para escritura." << std::endl;
+        cerr << "No se pudo abrir el archivo datos_ordenados.txt para escritura." << endl;
     }
 
     return 0;
