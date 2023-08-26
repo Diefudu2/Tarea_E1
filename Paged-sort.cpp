@@ -225,7 +225,7 @@ int main(int argc, char* argv[]) {
             }
         } else if (strcmp(argv[4], "QS") == 0) {
             for (Page& page : memory.getPages()) {
-                //quickSort(page.data., 0, page.data.size()-1);
+                quickSort(&page.data[0], 0, page.data.size()-1);
             }
         } else if (strcmp(argv[4], "IS") == 0) {
             for (Page& page : memory.getPages()) {
